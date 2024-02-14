@@ -1,17 +1,9 @@
-
-function xor(a, b) {
-    return (a === b) ? '0' : '1';
-}
-
-function encrypt(plainText, key, size) {
-    let encrypted = '';
-    for (let i = 0; i < size; i++) {
-        if (plainText[i] === ' ' && key[i] === ' ') {
-            encrypted += ' ';
-        } else
-        encrypted += xor(plainText[i], key[i]);
+function encrypt(plainText, key, size){
+    let cypherText = "";
+    for (let i = 0; i < size; i++){
+        cypherText += String.fromCharCode(plainText.charCodeAt(i) ^ key.charCodeAt(i));
     }
-    return encrypted;
+    return cypherText;
 }
 
 module.exports = encrypt;

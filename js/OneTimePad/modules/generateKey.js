@@ -1,13 +1,8 @@
-function generateRandomBinaryKey(binary) {
+function generateRandomKey(size){
     let key = "";
-    for (let i = 0; i < binary.length; i++) {
-        if (binary[i] === ' ') {
-            key += ' ';
-        } else {
-            key += Math.floor(Math.random() * 2);
-        }
+    for (let i = 0; i < size; i++){
+        key += String.fromCharCode(Math.floor(Math.random() * 256));
     }
     return key;
 }
-
-module.exports = generateRandomBinaryKey;
+module.exports = generateRandomKey;
