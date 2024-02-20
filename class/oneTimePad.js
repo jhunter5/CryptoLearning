@@ -1,38 +1,46 @@
+const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
 
-let plainText = "Odio la clase de sistemas de informacion"
-
-let key = generateRandomKey(plainText.length);
-
-let cypherText = encrypt(plainText, key, plainText.length);
-
-console.log("cypherText: ", cypherText);
-
-let plainTextDecrypted = decrypt(cypherText, key, plainText.length);
-
-console.log("plainTextDecrypted: ", plainTextDecrypted);
-
-
-function generateRandomKey(size){
-    let key = "";
-    for (let i = 0; i < size; i++){
-        key += String.fromCharCode(Math.floor(Math.random() * 256));
-    }
-    return key;
+function letterToIndex(message){
+    return message.split('').map(letter => ALPHABET.indexOf(letter));
 }
 
-function encrypt(plainText, key, size){
-    let cypherText = "";
-    for (let i = 0; i < size; i++){
-        cypherText += String.fromCharCode(plainText.charCodeAt(i) ^ key.charCodeAt(i));
-    }
-    return cypherText;
+function indexToLetter(indexes){
+    return indexes.map(index => ALPHABET[index]);
+}
+
+function addMod26(a, b){
+    return (a + b) % 26;
+}
+
+function subtractMod26(a, b){
+    return (a - b + 26) % 26;
 }
 
 
-function decrypt(cypherText, key, size){
-    let plainText = "";
-    for (let i = 0; i < size; i++){
-        plainText += String.fromCharCode(cypherText.charCodeAt(i) ^ key.charCodeAt(i));
-    }
-    return plainText;
+function oneTimePadEncrypt(plainText, key){
+    let plainTextIndexes = letterToIndex(plainText);
+    let keyIndexes = letterToIndex(key);
+    let cypherTextIndexes = plainTextIndexes.map((plainTextIndex, i) => addMod26(plainTextIndex, keyIndexes[i]));
+    return indexToLetter(cypherTextIndexes).join('');
 }
+
+function oneTimePadDecrypt(cypherText, key){
+    let cypherTextIndexes = letterToIndex(cypherText);
+    let keyIndexes = letterToIndex(key);
+    let plainTextIndexes = cypherTextIndexes.map((cypherTextIndex, i) => subtractMod26(cypherTextIndex, keyIndexes[i]));
+    return indexToLetter(plainTextIndexes).join('');
+}
+
+function main(){
+    let plainText = "hello";
+    let key = "eoxjf";
+    let cypherText = oneTimePadEncrypt(plainText, key);
+    console.log("------ Encriptacion ------")
+    console.log("plainText: ", plainText);
+    console.log("cypherText: ", cypherText);
+    let plainTextDecrypted = oneTimePadDecrypt(cypherText, key);
+    console.log("------ Desencriptacion ------")
+    console.log("plainTextDecrypted: ", plainTextDecrypted);
+}
+
+main();
