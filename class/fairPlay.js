@@ -21,7 +21,7 @@ function verifyLetter(letter, matrix){
     return false;
 }
 
-function fullMatrix(key, matrix){
+function fillMatrix(key, matrix){
     key = key.toUpperCase();
     var alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
     i = 0;
@@ -57,7 +57,7 @@ function fullMatrix(key, matrix){
 }
 
 
-function divideMssage(message){
+function divideMessage(message){
     let dividedM = new Array();
 
     for (let i = 0; i < message.length; i+=2){
@@ -90,13 +90,13 @@ function findLetter(letter, matrix){
 
 function fairPlayEncrypt(message, key){
     let matrix = makeMatrix();
-    fullMatrix(key, matrix);
+    fillMatrix(key, matrix);
 
     message = message.toUpperCase();
     // message = message.replace("J", "I");
     message = message.replace(/\s/g, "")
 
-    dividedMessage = divideMssage(message);
+    dividedMessage = divideMessage(message);
     
     let encryptedMessage = "";
 
@@ -128,15 +128,13 @@ function fairPlayEncrypt(message, key){
 
 function fairPlayDecrypt(message, key){
     let matrix = makeMatrix();
-    fullMatrix(key, matrix);
+    fillMatrix(key, matrix);
 
     message = message.toUpperCase();
     message = message.replace("J", "I");
     message = message.replace(/\s/g, "")
-    
 
-    dividedMessage = divideMssage(message);
-    console.log(dividedMessage);
+    dividedMessage = divideMessage(message);
     
     let decryptedMessage = "";
 
@@ -150,14 +148,14 @@ function fairPlayDecrypt(message, key){
         let secondLetterIndex = findLetter(secondLetter, matrix);
          
         if (firstLetterIndex[0] == secondLetterIndex[0]){
-            decryptedMessage += matrix[firstLetterIndex[0]][(firstLetterIndex[1] - 1 + 5) % 5];
-            decryptedMessage += matrix[secondLetterIndex[0]][(secondLetterIndex[1] - 1 + 5) % 5];
+            decryptedMessage += matrix[firstLetterIndex[0]][(firstLetterIndex[1] - 1 + 5) % 5] == "IJ" ? "I" : matrix[firstLetterIndex[0]][(firstLetterIndex[1] - 1 + 5) % 5];
+            decryptedMessage += matrix[secondLetterIndex[0]][(secondLetterIndex[1] - 1 + 5) % 5] == "IJ" ? "I" : matrix[secondLetterIndex[0]][(secondLetterIndex[1] - 1 + 5) % 5];
         } else if (firstLetterIndex[1] == secondLetterIndex[1]){
-            decryptedMessage += matrix[(firstLetterIndex[0] - 1 + 5) % 5][firstLetterIndex[1]];
-            decryptedMessage += matrix[(secondLetterIndex[0] - 1 + 5) % 5][secondLetterIndex[1]];
+            decryptedMessage += matrix[(firstLetterIndex[0] - 1 + 5) % 5][firstLetterIndex[1]] == "IJ" ? "I" : matrix[(firstLetterIndex[0] - 1 + 5) % 5][firstLetterIndex[1]];
+            decryptedMessage += matrix[(secondLetterIndex[0] - 1 + 5) % 5][secondLetterIndex[1]] == "IJ" ? "I" : matrix[(secondLetterIndex[0] - 1 + 5) % 5][secondLetterIndex[1]];
         } else {
-            decryptedMessage += matrix[firstLetterIndex[0]][secondLetterIndex[1]];
-            decryptedMessage += matrix[secondLetterIndex[0]][firstLetterIndex[1]];
+            decryptedMessage += matrix[firstLetterIndex[0]][secondLetterIndex[1]] == "IJ" ? "I" : matrix[firstLetterIndex[0]][secondLetterIndex[1]];
+            decryptedMessage += matrix[secondLetterIndex[0]][firstLetterIndex[1]] == "IJ" ? "I" : matrix[secondLetterIndex[0]][firstLetterIndex[1]];
         }
     }
     
@@ -165,15 +163,23 @@ function fairPlayDecrypt(message, key){
     return decryptedMessage;
 }
 
+function main(){
+    let plainText = "THIS SECRET MESSAGE IS ENCRYPTED";
+    let key = "YOANPINZON"
+    let cypherText = fairPlayEncrypt(plainText, key);
+    console.log("------Encriptacion------")
+    console.log("plainText: ", plainText);
+    console.log("cypherText: ", cypherText);
 
-cypherText = fairPlayEncrypt("THIS SECRET MESSAGE IS ENCRYPTED", "yoanpinzon");
+    console.log("------Desencriptacion------")
+    cypherText = "ZO MH LC HY ZK MN SO NQ DL KT OQ CY KI EC LK SO YI EQ PQ RX EY KR WM NS DL GY LD GF AB YA QN YE AP GN IX PG HY YS NB HT EC TL KF VN RP YT PU PF CY EB YA WM KI MP LF UZ LH TC YH NP CK KL LY YT KI GB DH CY EC RD GN CL GO IH YE TY KI XO UY VN KF SC LX KF MX PW"
+    console.log("cypherText: ", cypherText.split(" ").join(""));
+    let decryptedText = fairPlayDecrypt(cypherText, key);
+    console.log("plainTextDecrypted", decryptedText);
 
-console.log(cypherText)
-
-let que = "IU OU TF DF IR QC IN XR"
-plainText = fairPlayDecrypt( que, "yoanpinzon");
-console.log(plainText)
+}
 
 
+main();
 
 

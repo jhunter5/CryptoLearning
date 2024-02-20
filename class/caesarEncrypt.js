@@ -9,18 +9,28 @@ function caesarEncrypt(message, shiftAmount){
         let newIndex = (ALPHABET.indexOf(message[i]) + shiftAmount + ALPHABET.length) % ALPHABET.length;
         decryptedMessage += ALPHABET[newIndex];
     }
-    return decryptedMessage;
+    return decryptedMessage.split(" ").join("");
 }
 
-let message = "ATTACKATONCE"
-let shiftAmount = 4;
 
 function caesarDecrypt(message, shiftAmount){
     return caesarEncrypt(message, -shiftAmount);
 }
 
-let encryptedMessage = caesarEncrypt(message, shiftAmount);
-console.log(encryptedMessage); // THIS SECRET MESSAGE IS VERY IMPORTANT BECAUSE PEOPLE SHOULD KNOW THAT IT IS VERY EASY TO DECRYPT A MESSAGE WHICH IS ENCRYPTED USING CAESAR CIPHER
+function main(){
+    let plainText = "RETURN TO ROME"
+    let shiftAmount = 3;
+    let encryptedMessage = caesarEncrypt(plainText, shiftAmount);
+    console.log("-------Encrypting-------")
+    console.log("Plain Text: ",plainText) // RETURN TO ROME
+    console.log("Encrypted Message: ",encryptedMessage); // UHWXQW WR URPH
 
-let plainText = caesarDecrypt(encryptedMessage, shiftAmount);
-console.log(plainText); // ATTACKATONCE
+    console.log("-------Decrypting-------")
+    encryptedMessage = "WKLVL VHAWU HPHOB LQVHF XUHHQ FUBSW LRQGR QRWXV HLWWR SURWH FWYDO XDEOH LQIRU PDWLR Q"
+    shiftAmount = 3;
+    let decryptedMessage = caesarDecrypt(encryptedMessage, shiftAmount);
+    console.log("Encrypted Message: ",encryptedMessage);
+    console.log("Decrypted Message: ",decryptedMessage);
+}
+
+main();
