@@ -1,3 +1,5 @@
+const getInput = require('./module/getInput');
+
 function makeVigenereMatrix() {
     var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     var matrix = [];
@@ -65,11 +67,26 @@ function vigenereDecrypt(cypherText, key, t){
 
 }
 
-function main(){
+async function main(){
+    let option = await getInput('1. Encriptar\n2. Desencriptar\n');
+    if (option == '1'){
+        console.log('-----Encriptación Vigenere-----');
+        let cypherText = await getInput('Inserte mensaje a cifrar: ');
+        let key = await getInput('Inserte clave: ');
+        let t = parseInt(await getInput('Inserte tamaño de bloque: '));
+        let encryptedText = vigenereEncrypt(cypherText, key, t);
+        console.log('Texto cifrado: ', encryptedText);
+    } else {
+        console.log('-----Desencriptación Vigenere-----');
+        let cypherText = await getInput('Inserte mensaje a descifrar: ');
+        let key = await getInput('Inserte clave: ');
+        let t = parseInt(await getInput('Inserte tamaño de bloque: '));
+        let decryptedText = vigenereDecrypt(cypherText, key, t);
+        console.log('Texto descifrado: ', decryptedText);
+    }
     
+
 }
 
+main();
 
-// console.log(vigenereEncrypt("TO BE OR NOT TO BE THAT IS THE QUESTION", "RELATIONS", 5));
-console.log(vigenereEncrypt("THERE IS A SECRET PASSAGE BEHIND THE PICTURE FRAME", "CRYPTO", 3));
-// console.log(vigenereDecrypt("KS ME HZ BBL KS ME MPOG AJ XSE JCSFLZSY", "RELATIONS", 5));
